@@ -2,28 +2,60 @@
   "name": "authserver",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aleinin/authserver.git"
+    "start:client": "webpack serve --port 3000",
+    "start:server": "node ./dist/server/index.js",
+    "clean-all": "rimraf dist",
+    "clean:server": "rimraf dist/server",
+    "clean:client": "rimraf dist/client",
+    "build-all": "",
+    "build:server": "npm-run-all clean:server tsc:server start:server",
+    "build:client": "NODE_ENV=production webpack",
+    "build:client:windows": "set NODE_ENV=production && webpack",
+    "tsc:server": "npx tsc",
+    "watch:server": "nodemon",
+    "lint": "eslint . --fix --ext .ts"
   },
   "author": "aleinin",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/aleinin/authserver/issues"
-  },
-  "homepage": "https://github.com/aleinin/authserver#readme",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/body-parser": "^1.19.1",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.5",
+    "@types/node": "^16.11.0",
+    "@types/react": "^17.0.30",
+    "@types/react-dom": "^17.0.9",
+    "@types/styled-components": "^5.1.15",
+    "@types/ws": "^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "css-loader": "^6.4.0",
+    "eslint": "^8.0.1",
     "html-webpack-plugin": "^5.3.2",
     "mini-css-extract-plugin": "^2.4.2",
+    "nodemon": "^2.0.13",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
     "ts-loader": "^9.2.6",
+    "ts-node": "^10.3.0",
     "typescript": "^4.4.4",
     "webpack": "^5.58.2",
     "webpack-cli": "^4.9.0",
     "webpack-dev-server": "^4.3.1"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.12.3",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.11",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.1"
   }
 }
