@@ -1,0 +1,29 @@
+{
+  "name": "authserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aleinin/authserver.git"
+  },
+  "author": "aleinin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aleinin/authserver/issues"
+  },
+  "homepage": "https://github.com/aleinin/authserver#readme",
+  "devDependencies": {
+    "css-loader": "^6.4.0",
+    "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^2.4.2",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.4",
+    "webpack": "^5.58.2",
+    "webpack-cli": "^4.9.0",
+    "webpack-dev-server": "^4.3.1"
+  }
+}
