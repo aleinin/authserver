@@ -4,6 +4,7 @@ import {
   Checkbox,
   Button,
 } from '@material-ui/core'
+import axios from 'axios'
 import React, { FormEvent, useState } from 'react'
 import styled from 'styled-components'
 import { isPopulatedString } from '../../util/is-populated-string'
@@ -12,6 +13,16 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
 `
+
+interface AuthorizationRequest {
+  username: string
+  password: string
+  client_id: string
+  redirect_uri: string
+  response_type: 'code'
+  scope: string
+  state: string
+}
 
 export interface LoginState {
   username: string
@@ -26,10 +37,27 @@ const loginInitialState: LoginState = {
 }
 
 export const LoginForm = () => {
+  const params = new URLSearchParams(window.location.search)
   const [login, setLogin] = useState<LoginState>(loginInitialState)
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event?.preventDefault()
     console.log(login)
+    // todo url
+    axios
+      .post('http://localhost:3001/authorize/login', {
+        username: login.username,
+        password: login.password,
+        client_id: params.get('client_id'),
+        redirect_uri: params.get('redirect_uri'),
+        response_type: 'code',
+        scope: params.get('scope'),
+        state: params.get('state'),
+      })
+      .then((response: any) => {
+        window.location.href = `${params.get('redirect_uri')}?code=${
+          response.data.data
+        }`
+      })
   }
   const handleChange = (event: any) => {
     const id = event.target.id

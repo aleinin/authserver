@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express'
 import { verify } from 'jsonwebtoken'
 import { SECRET } from '.'
-import { createAuthResponse } from './models/auth-response'
+import { AuthorizationResponse } from './models/authorization-response'
+import { BadRequest } from './responses'
 
 const BEARER = 'Bearer '
 
@@ -19,19 +20,23 @@ const BEARER = 'Bearer '
  *
  */
 export const verifyToken: RequestHandler = (req, res) => {
-  const token: string | undefined = req.body.token
-  if (token != null && token.startsWith(BEARER)) {
-    const jwt = token.slice(BEARER.length, token.length)
-    verify(jwt, SECRET, (err, decoded) => {
-      res.status(200)
-      if (err != null || decoded == null) {
-        return res.json(createAuthResponse(false, 'Invalid token'))
-      } else {
-        return res.json(createAuthResponse(true, 'Valid token'))
-      }
-    })
-  } else {
-    res.status(400)
-    res.json(createAuthResponse(false))
+  const token: string | undefined = req.body?.token
+  if (token == null || !token.startsWith(BEARER)) {
+    return BadRequest(res)
   }
+  const jwt = token.slice(BEARER.length, token.length)
+  verify(jwt, SECRET, (err, decoded) => {
+    const response: AuthorizationResponse<{ valid: boolean }> = {
+      success: true,
+    }
+    if (err != null || decoded == null) {
+      response.message = 'Invalid token'
+      response.data = { valid: false }
+      return res.json(response)
+    } else {
+      response.message = 'Valid token'
+      response.data = { valid: true }
+      return res.json(response)
+    }
+  })
 }
